@@ -79,6 +79,52 @@ python app.py
 
 ---
 
+---
+
+## 🏗️ Project Structure
+
+This project follows a modular Flask architecture to ensure scalability and clean separation of concerns:
+
+```text
+├── app.py                  # Application Factory & app initialization
+├── config.py               # Environment-specific configurations (Dev/Prod)
+├── models.py               # SQLAlchemy Database Models (Admin & Opportunity)
+├── wsgi.py                 # Production WSGI entry point for Render/Gunicorn
+├── routes/                 # API Blueprint directory
+│   ├── __init__.py         # Blueprint initialization
+│   ├── auth_routes.py      # Authentication endpoints (Signup, Login, Forgot Pwd)
+│   └── opportunity_routes.py # CRUD endpoints for Opportunity management
+├── static/                 # Frontend Assets
+│   ├── css/
+│   │   └── admin.css       # Core styling (Original UI)
+│   └── js/
+│       ├── admin.js        # Original UI logic (Mock interactions)
+│       └── backend_integration.js # Integration Bridge (The "Brain" that connects UI to API)
+├── templates/              # HTML Templates
+│   └── admin.html          # Main Single Page Application (SPA)
+├── requirements.txt        # Python dependency list
+├── .env.example            # Template for environment variables (Secret Key, DB URL)
+├── test_api.py             # Automated test suite for backend verification
+└── BACKEND_SUMMARY.txt     # Technical summary of the implementation
+```
+
+---
+
+## 🛠️ Implementation Summary: What was Updated?
+
+The transition from a **static mock frontend** to a **production-ready full-stack application** involved several critical updates:
+
+1.  **Backend Core:** Built a robust Flask API using the Factory pattern to handle all business logic.
+2.  **Database Integration:** Replaced the local JSON/variable-based storage in `admin.js` with a persistent **SQLite** database using SQLAlchemy.
+3.  **Security Layer:** 
+    *   Implemented password hashing using **PBKDF2-SHA256**.
+    *   Added **CSRF Protection** to prevent cross-site attacks.
+    *   Enforced **Secure Session Cookies** for user authentication.
+4.  **Integration Bridge:** Developed `backend_integration.js` to intelligently override the original frontend behavior. It intercepts form submissions, strips the mock logic, and uses the `fetch()` API to communicate with our new Python backend.
+5.  **Dynamic Rendering:** Updated the UI to render "Opportunity Cards" directly from the database, enabling real-time Add/Edit/Delete functionality without page reloads.
+
+---
+
 ## 📡 API Routes
 
 | Method | Endpoint | Description |
