@@ -329,16 +329,7 @@ function renderOpportunityCard(opp, grid) {
         <div class="opportunity-footer">
             <span class="applicants-count">${esc(applicantsText)}</span>
             <div style="display:flex;gap:8px;">
-                <button class="view-course-btn" style="width:auto;padding:8px 16px;"
-                    onclick="openOpportunityDetails('${esc(opp.opportunity_name)}', {
-                        duration: '${esc(opp.duration)}',
-                        startDate: '${esc(opp.start_date)}',
-                        description: '${esc(opp.description)}',
-                        skills: ${JSON.stringify(skills)},
-                        applicants: ${opp.max_applicants || 0},
-                        futureOpportunities: '${esc(opp.future_opportunities)}',
-                        prerequisites: ''
-                    })">
+                <button class="view-course-btn opp-view-btn" style="width:auto;padding:8px 16px;">
                     View Details
                 </button>
                 <button class="view-course-btn opp-edit-btn" style="width:auto;padding:8px 16px;background:var(--accent,#6366f1);"
@@ -351,6 +342,21 @@ function renderOpportunityCard(opp, grid) {
                 </button>
             </div>
         </div>`;
+
+    // ── View Details ──────────────────────────────────────────────────────────
+    card.querySelector(".opp-view-btn").addEventListener("click", () => {
+        if (typeof openOpportunityDetails === "function") {
+            openOpportunityDetails(opp.opportunity_name, {
+                duration: opp.duration,
+                startDate: opp.start_date,
+                description: opp.description,
+                skills: skills,
+                applicants: opp.max_applicants || 0,
+                futureOpportunities: opp.future_opportunities,
+                prerequisites: ''
+            });
+        }
+    });
 
     // ── Delete ────────────────────────────────────────────────────────────────
     card.querySelector(".opp-delete-btn").addEventListener("click", async () => {
